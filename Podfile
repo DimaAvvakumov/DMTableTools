@@ -1,5 +1,13 @@
-platform :ios, '8.2'
+platform :ios, '8.0'
 
 inhibit_all_warnings!
 
-pod 'TLIndexPathTools'
+def allPods
+    pod 'TLIndexPathTools'
+end
+
+target 'DMTableTools' do
+
+    allPods
+
+end
