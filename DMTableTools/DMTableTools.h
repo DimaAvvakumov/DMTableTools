@@ -9,6 +9,26 @@
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
 
+#pragma mark - DMTableToolsAnimation declaration
+
+typedef NS_ENUM(NSInteger, DMTableToolsAnimation) {
+    DMTableToolsNoAnimation,
+    DMTableToolsDefaultAnimation
+};
+
+
+#pragma mark - Model declaration
+
+@protocol DMTableToolsModel <NSObject>
+
+@required
+- (NSString *)identifier;
+
+@end
+
+
+#pragma mark - DMTableTools
+
 @interface DMTableTools : NSObject
 
 #pragma mark - Initialization
@@ -16,9 +36,14 @@
 
 #pragma mark - Table view
 @property (weak, nonatomic) UITableView *tableView;
+@property (copy, nonatomic) BOOL(^modificationComparatorBlock)(id item1, id item2);
 
 #pragma mark - Data items
-- (void)setDataItems:(NSArray *)dataItems;
+
+/* Method must be call on main thread only 
+ */
+
+- (void)setDataItems:(NSArray <id<DMTableToolsModel>> *)dataItems withAnimation:(DMTableToolsAnimation)animation;
 
 #pragma mark - UITableViewDataSource
 - (NSInteger)numberOfSections;
