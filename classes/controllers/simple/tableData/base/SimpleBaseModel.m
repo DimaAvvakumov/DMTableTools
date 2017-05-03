@@ -8,27 +8,14 @@
 
 #import "SimpleBaseModel.h"
 
-#import "SimpleBaseConfigurator.h"
-
-@interface SimpleBaseModel()
-
-@property (strong, nonatomic) SimpleBaseConfigurator *cfg;
-
-@end
-
 @implementation SimpleBaseModel
 
 + (NSString *)cellIdentifier {
     return @"SimpleCell";
 }
 
-- (id<DMTableRefresherConfiguratorProtocol>)configurator {
-    if (_cfg == nil) {
-        self.cfg = [SimpleBaseConfigurator new];
-    }
-    
-    return _cfg;
+- (NSString *)identifier {
+    return [NSString stringWithFormat:@"item-%@", self.itemID];
 }
-
 
 @end

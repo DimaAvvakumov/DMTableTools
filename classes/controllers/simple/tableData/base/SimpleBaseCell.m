@@ -8,6 +8,8 @@
 
 #import "SimpleBaseCell.h"
 
+#import "SimpleBaseModel.h"
+
 @implementation SimpleBaseCell
 
 - (void)awakeFromNib {
@@ -19,6 +21,10 @@
     [super setSelected:selected animated:animated];
 
     // Configure the view for the selected state
+}
+
+- (void)configureWithModel:(SimpleBaseModel *)model {
+    
 }
 
 @end

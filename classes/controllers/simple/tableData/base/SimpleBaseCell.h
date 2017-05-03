@@ -8,6 +8,8 @@
 
 #import <UIKit/UIKit.h>
 
-@interface SimpleBaseCell : UITableViewCell
+#import "SimpleTableViewProtocols.h"
+
+@interface SimpleBaseCell : UITableViewCell <SimpleCellProtocol>
 
 @end

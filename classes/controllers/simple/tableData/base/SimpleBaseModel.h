@@ -8,8 +8,12 @@
 
 #import <Foundation/Foundation.h>
 
-#import "DMTableRefresherProtocols.h"
+#import "DMTableTools.h"
+#import "SimpleTableViewProtocols.h"
 
-@interface SimpleBaseModel : NSObject <DMTableRefresherModelProtocol>
+@interface SimpleBaseModel : NSObject <SimpleModelProtocol, DMTableToolsModel>
+
+@property (strong, nonatomic) NSNumber *itemID;
+@property (strong, nonatomic) NSString *title;
 
 @end
