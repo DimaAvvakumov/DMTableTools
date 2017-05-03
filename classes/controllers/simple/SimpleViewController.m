@@ -8,7 +8,7 @@
 
 #import "SimpleViewController.h"
 
-#import "DMTableTools.h"
+#import "SimpleTableViewProtocols.h"
 
 @interface SimpleViewController () <UITableViewDataSource, UITableViewDelegate>
 
@@ -41,8 +41,19 @@
     return [self.tableTools numberOfRowsInSection:section];
 }
 
-- (UITableView *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(nonnull NSIndexPath *)indexPath {
-    return nil;
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(nonnull NSIndexPath *)indexPath {
+    /* model */
+    id<SimpleModelProtocol> model = (id<SimpleModelProtocol>) [self.tableTools modelAtIndexPath:indexPath];
+    if (![model conformsToProtocol:@protocol(SimpleModelProtocol)]) return nil;
+    
+    /* cell for model */
+    UITableViewCell<SimpleCellProtocol> *cell = [tableView dequeueReusableCellWithIdentifier:model.cellIdentifier forIndexPath:indexPath];
+    if (![cell conformsToProtocol:@protocol(SimpleCellProtocol)]) return nil;
+    
+    /* configure cell */
+    [cell configureWithModel:model];
+    
+    return cell;
 }
 
 @end

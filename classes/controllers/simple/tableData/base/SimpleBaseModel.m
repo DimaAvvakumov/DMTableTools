@@ -10,7 +10,7 @@
 
 @implementation SimpleBaseModel
 
-+ (NSString *)cellIdentifier {
+- (NSString *)cellIdentifier {
     return @"SimpleCell";
 }
 

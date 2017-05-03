@@ -74,6 +74,15 @@
     self.updateInProcess = YES;
 }
 
+- (id<DMTableToolsModel>)modelAtIndexPath:(NSIndexPath *)indexPath {
+    id<DMTableToolsModel> model = [self.dataModel itemAtIndexPath:indexPath];
+    if ([model conformsToProtocol:@protocol(DMTableToolsModel)]) {
+        return model;
+    }
+    
+    return nil;
+}
+
 - (void)afterBatchUpdate {
     if (self.candidateDataItems == nil) return;
     

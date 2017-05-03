@@ -25,6 +25,8 @@
 
 - (void)configureWithModel:(SimpleBaseModel *)model {
     
+    self.craftLabel.text = model.title;
+    
 }
 
 @end

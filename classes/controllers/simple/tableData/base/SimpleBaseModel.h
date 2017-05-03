@@ -8,10 +8,9 @@
 
 #import <Foundation/Foundation.h>
 
-#import "DMTableTools.h"
 #import "SimpleTableViewProtocols.h"
 
-@interface SimpleBaseModel : NSObject <SimpleModelProtocol, DMTableToolsModel>
+@interface SimpleBaseModel : NSObject <SimpleModelProtocol>
 
 @property (strong, nonatomic) NSNumber *itemID;
 @property (strong, nonatomic) NSString *title;

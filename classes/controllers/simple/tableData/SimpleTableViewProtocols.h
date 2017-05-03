@@ -9,14 +9,15 @@
 #ifndef SimpleTableViewProtocols_h
 #define SimpleTableViewProtocols_h
 
-@protocol SimpleModelProtocol <NSObject>
+#import "DMTableTools.h"
 
-+ (NSString *)cellIdentifier;
+@protocol SimpleModelProtocol <DMTableToolsModel>
 
 @end
 
 @protocol SimpleCellProtocol <NSObject>
 
+@required
 - (void)configureWithModel:(id<SimpleModelProtocol>)model;
 
 @end

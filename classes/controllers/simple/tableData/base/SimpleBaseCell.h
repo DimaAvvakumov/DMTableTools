@@ -12,4 +12,6 @@
 
 @interface SimpleBaseCell : UITableViewCell <SimpleCellProtocol>
 
+@property (strong, nonatomic) IBOutlet UILabel *craftLabel;
+
 @end

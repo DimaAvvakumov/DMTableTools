@@ -23,6 +23,7 @@ typedef NS_ENUM(NSInteger, DMTableToolsAnimation) {
 
 @required
 - (NSString *)identifier;
+- (NSString *)cellIdentifier;
 
 @end
 
@@ -44,6 +45,8 @@ typedef NS_ENUM(NSInteger, DMTableToolsAnimation) {
  */
 
 - (void)setDataItems:(NSArray <id<DMTableToolsModel>> *)dataItems withAnimation:(DMTableToolsAnimation)animation;
+
+- (id<DMTableToolsModel>)modelAtIndexPath:(NSIndexPath *)indexPath;
 
 #pragma mark - UITableViewDataSource
 - (NSInteger)numberOfSections;
