@@ -10,7 +10,7 @@
 
 #import "SimpleTableViewProtocols.h"
 
-@interface SimpleBaseModel : NSObject <SimpleModelProtocol>
+@interface SimpleBaseModel : NSObject <SimpleModelProtocol, NSCopying>
 
 @property (strong, nonatomic) NSNumber *itemID;
 @property (strong, nonatomic) NSString *title;

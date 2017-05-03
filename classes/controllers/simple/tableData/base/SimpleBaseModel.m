@@ -10,6 +10,19 @@
 
 @implementation SimpleBaseModel
 
+#pragma mark - NSCopying
+
+- (id)copyWithZone:(nullable NSZone *)zone {
+    SimpleBaseModel *model = [[[self class] allocWithZone:zone] init];
+    
+    model.itemID = self.itemID;
+    model.title = self.title;
+    
+    return model;
+}
+
+#pragma mark - SimpleModelProtocol
+
 - (NSString *)cellIdentifier {
     return @"SimpleCell";
 }

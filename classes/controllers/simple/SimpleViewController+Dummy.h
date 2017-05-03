@@ -12,7 +12,6 @@
 
 @interface SimpleViewController (Dummy)
 
-- (NSArray <id<SimpleModelProtocol>> *)dataItemsFirstSet;
-- (NSArray <id<SimpleModelProtocol>> *)dataItemsSecondSet;
+- (NSArray <id<SimpleModelProtocol>> *)randomDataItemsSet;
 
 @end

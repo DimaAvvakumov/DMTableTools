@@ -10,6 +10,7 @@
 
 // frameworks
 #import <TLIndexPathTools/TLIndexPathTools.h>
+#import "TLIndexPathUpdates+DMBatch.h"
 
 @interface DMTableTools()
 
@@ -51,6 +52,8 @@
 #pragma mark - Data items
 
 - (void)setDataItems:(NSArray <id<DMTableToolsModel>> *)dataItems withAnimation:(DMTableToolsAnimation)animation {
+    // NSArray <id<DMTableToolsModel>> *copyedDataItems = [[NSArray alloc] initWithArray:dataItems copyItems:YES];
+    
     /* check for main thread */
     if (![NSThread isMainThread]) return;
     
@@ -76,12 +79,20 @@
 }
 
 - (id<DMTableToolsModel>)modelAtIndexPath:(NSIndexPath *)indexPath {
-    id<DMTableToolsModel> model = [self.dataModel itemAtIndexPath:indexPath];
+    TLIndexPathItem *item = [self.dataModel itemAtIndexPath:indexPath];
+    id<DMTableToolsModel> model = item.data;
     if ([model conformsToProtocol:@protocol(DMTableToolsModel)]) {
         return model;
     }
     
     return nil;
+}
+
+- (NSInteger)plainIndexByIndexPath:(NSIndexPath *)indexPath {
+    TLIndexPathItem *item = [self.dataModel itemAtIndexPath:indexPath];
+    NSUInteger index = [[self.dataModel items] indexOfObject:item];
+    
+    return index;
 }
 
 - (void)afterBatchUpdate {
@@ -120,13 +131,30 @@
         return;
     }
     
+    // weak self
+    __weak typeof (self) weakSelf = self;
+    
     /* batch updater */
-    TLIndexPathUpdates *updates = [[TLIndexPathUpdates alloc] initWithOldDataModel:oldModel updatedDataModel:newModel modificationComparatorBlock:self.modificationComparatorBlock];
+    TLIndexPathUpdates *updates = [[TLIndexPathUpdates alloc] initWithOldDataModel:oldModel updatedDataModel:newModel modificationComparatorBlock:^BOOL(TLIndexPathItem *item1, TLIndexPathItem *item2) {
+        typeof (weakSelf) strongSelf = weakSelf;
+        if (strongSelf == nil) return NO;
+        
+        return strongSelf.modificationComparatorBlock(item1.data, item2.data);
+    }];
     
     self.dataModel = newModel;
     
     dispatch_async(dispatch_get_main_queue(), ^{
-        [updates performBatchUpdatesOnTableView:self.tableView withRowAnimation:UITableViewRowAnimationAutomatic completion:^(BOOL finished) {
+        [updates performBatchUpdatesOnTableView:self.tableView withRowAnimation:UITableViewRowAnimationAutomatic handleModificationCompletion:^(NSArray *visibleModifiedIndexPaths) {
+            
+            if (visibleModifiedIndexPaths) {
+                if (self.onModifyVisibleCellsBlock) {
+                    self.onModifyVisibleCellsBlock( visibleModifiedIndexPaths );
+                } else {
+                    [self.tableView reloadRowsAtIndexPaths:visibleModifiedIndexPaths withRowAnimation:UITableViewRowAnimationAutomatic];
+                }
+            }
+            
             if (finishBlock) {
                 finishBlock(YES);
             }
@@ -137,11 +165,15 @@
 #pragma mark - UITableViewDataSource
 
 - (NSInteger)numberOfSections {
-    return 0;
+    if (self.dataModel == nil) return 0;
+    
+    return [self.dataModel numberOfSections];
 }
 
 - (NSInteger)numberOfRowsInSection:(NSInteger)section {
-    return 0;
+    if (self.dataModel == nil) return 0;
+    
+    return [self.dataModel numberOfRowsInSection:section];
 }
 
 #pragma mark - Array for index path

@@ -14,28 +14,11 @@
 
 @implementation SimpleViewController (Dummy)
 
-- (NSArray <id<SimpleModelProtocol>> *)dataItemsFirstSet {
+- (NSArray <id<SimpleModelProtocol>> *)randomDataItemsSet {
     NSUInteger count = 100;
     NSMutableArray *dataItems = [NSMutableArray arrayWithCapacity:count];
     
     for (int i = 0; i < count; i++) {
-        NSNumber *itemID = @(i + 1);
-        
-        SimpleBaseModel *model = [SimpleBaseModel new];
-        model.itemID = itemID;
-        model.title = [NSString generateRandomFishWithLength:64];
-        
-        [dataItems addObject:model];
-    }
-    
-    return dataItems;
-}
-
-- (NSArray <id<SimpleModelProtocol>> *)dataItemsSecondSet {
-    NSUInteger count = 80;
-    NSMutableArray *dataItems = [NSMutableArray arrayWithCapacity:count];
-    
-    for (int i = 10; i < count; i++) {
         NSNumber *itemID = @(i + 1);
         
         SimpleBaseModel *model = [SimpleBaseModel new];

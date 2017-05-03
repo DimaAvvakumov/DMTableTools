@@ -41,6 +41,7 @@ typedef NS_ENUM(NSInteger, DMTableToolsAnimation) {
 #pragma mark - Table view
 @property (weak, nonatomic) UITableView *tableView;
 @property (copy, nonatomic) BOOL(^modificationComparatorBlock)(id item1, id item2);
+@property (copy, nonatomic) void(^onModifyVisibleCellsBlock)(NSArray <NSIndexPath *> *visibleModifiedIndexPaths);
 
 #pragma mark - Section info
 @property (strong, nonatomic) NSString *sectionNameKeyPath;
@@ -53,6 +54,7 @@ typedef NS_ENUM(NSInteger, DMTableToolsAnimation) {
 - (void)setDataItems:(NSArray <id<DMTableToolsModel>> *)dataItems withAnimation:(DMTableToolsAnimation)animation;
 
 - (id<DMTableToolsModel>)modelAtIndexPath:(NSIndexPath *)indexPath;
+- (NSInteger)plainIndexByIndexPath:(NSIndexPath *)indexPath;
 
 #pragma mark - UITableViewDataSource
 - (NSInteger)numberOfSections;
