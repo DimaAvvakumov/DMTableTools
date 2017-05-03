@@ -13,6 +13,9 @@
 
 @protocol SimpleModelProtocol <DMTableToolsModel>
 
+@required
+- (BOOL)isModifyCompareToModel:(id<SimpleModelProtocol>)oldModel;
+
 @end
 
 @protocol SimpleCellProtocol <NSObject>

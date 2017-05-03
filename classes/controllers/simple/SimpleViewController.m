@@ -10,6 +10,8 @@
 
 #import "SimpleTableViewProtocols.h"
 
+#import "SimpleBaseModel.h"
+
 @interface SimpleViewController () <UITableViewDataSource, UITableViewDelegate>
 
 @property (strong, nonatomic) IBOutlet UITableView *tableView;
@@ -23,12 +25,26 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    self.tableTools = [DMTableTools toolsWithTableView:self.tableView];
+    DMTableTools *tableTools = [DMTableTools toolsWithTableView:self.tableView];
+    tableTools.sectionNameKeyPath = @"section";
+    tableTools.modificationComparatorBlock = ^BOOL(id<SimpleModelProtocol> item1, id<SimpleModelProtocol> item2) {
+        
+        return [item1 isModifyCompareToModel:item2];
+    };
+    self.tableTools = tableTools;
 }
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+#pragma mark - Restore data
+
+- (void)restoreData {
+    SimpleBaseModel *model = [SimpleBaseModel new];
+    model.itemID = @(1);
+    model.title = @"Первый";
 }
 
 #pragma mark - UITableViewDataSource, UITableViewDelegate
@@ -39,6 +55,14 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     return [self.tableTools numberOfRowsInSection:section];
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+    return UITableViewAutomaticDimension;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView estimatedHeightForRowAtIndexPath:(NSIndexPath *)indexPath {
+    return 64.0;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(nonnull NSIndexPath *)indexPath {

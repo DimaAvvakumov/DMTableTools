@@ -17,6 +17,8 @@
 		188D71F31EB883D600172460 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 188D71E81EB883D600172460 /* LaunchScreen.storyboard */; };
 		188D71F41EB883D600172460 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 188D71E91EB883D600172460 /* Main.storyboard */; };
 		188D71FA1EB8846800172460 /* DMTableTools.m in Sources */ = {isa = PBXBuildFile; fileRef = 188D71F91EB8846800172460 /* DMTableTools.m */; };
+		188D72171EB993F900172460 /* SimpleViewController+Dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 188D72161EB993F900172460 /* SimpleViewController+Dummy.m */; };
+		188D721C1EB9946D00172460 /* NSString+Fish.m in Sources */ = {isa = PBXBuildFile; fileRef = 188D721B1EB9946D00172460 /* NSString+Fish.m */; };
 		C68B25D84850F9379F6E76DD /* libPods-DMTableTools.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 389920965897F35823EA3401 /* libPods-DMTableTools.a */; };
 /* End PBXBuildFile section */
 
@@ -40,6 +42,10 @@
 		188D71E91EB883D600172460 /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
 		188D71F81EB8846800172460 /* DMTableTools.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DMTableTools.h; sourceTree = "<group>"; };
 		188D71F91EB8846800172460 /* DMTableTools.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DMTableTools.m; sourceTree = "<group>"; };
+		188D72151EB993F900172460 /* SimpleViewController+Dummy.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "SimpleViewController+Dummy.h"; sourceTree = "<group>"; };
+		188D72161EB993F900172460 /* SimpleViewController+Dummy.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "SimpleViewController+Dummy.m"; sourceTree = "<group>"; };
+		188D721A1EB9946D00172460 /* NSString+Fish.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+Fish.h"; sourceTree = "<group>"; };
+		188D721B1EB9946D00172460 /* NSString+Fish.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+Fish.m"; sourceTree = "<group>"; };
 		18F671721EB8DD1100C6A9A2 /* SimpleTableViewProtocols.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SimpleTableViewProtocols.h; sourceTree = "<group>"; };
 		389920965897F35823EA3401 /* libPods-DMTableTools.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-DMTableTools.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		C4DB049848DC98CAB944D74C /* Pods-DMTableTools.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DMTableTools.release.xcconfig"; path = "Pods/Target Support Files/Pods-DMTableTools/Pods-DMTableTools.release.xcconfig"; sourceTree = "<group>"; };
@@ -70,6 +76,7 @@
 			isa = PBXGroup;
 			children = (
 				188D71B91EB8833700172460 /* DMTableTools */,
+				188D72181EB9946D00172460 /* categories */,
 				188D71D11EB883D600172460 /* classes */,
 				188D71B81EB8833700172460 /* Products */,
 				155C6FC7A5AC62171FCBA348 /* Pods */,
@@ -131,6 +138,8 @@
 				188D71DA1EB883D600172460 /* tableData */,
 				188D71D81EB883D600172460 /* SimpleViewController.h */,
 				188D71D91EB883D600172460 /* SimpleViewController.m */,
+				188D72151EB993F900172460 /* SimpleViewController+Dummy.h */,
+				188D72161EB993F900172460 /* SimpleViewController+Dummy.m */,
 			);
 			path = simple;
 			sourceTree = "<group>";
@@ -171,6 +180,24 @@
 				188D71E91EB883D600172460 /* Main.storyboard */,
 			);
 			path = storyboards;
+			sourceTree = "<group>";
+		};
+		188D72181EB9946D00172460 /* categories */ = {
+			isa = PBXGroup;
+			children = (
+				188D72191EB9946D00172460 /* Fish */,
+			);
+			name = categories;
+			path = classes/categories;
+			sourceTree = "<group>";
+		};
+		188D72191EB9946D00172460 /* Fish */ = {
+			isa = PBXGroup;
+			children = (
+				188D721A1EB9946D00172460 /* NSString+Fish.h */,
+				188D721B1EB9946D00172460 /* NSString+Fish.m */,
+			);
+			path = Fish;
 			sourceTree = "<group>";
 		};
 		805CFFC0A87901554D62B6A4 /* Frameworks */ = {
@@ -308,9 +335,11 @@
 				188D71F01EB883D600172460 /* ViewController.m in Sources */,
 				188D71EC1EB883D600172460 /* SimpleViewController.m in Sources */,
 				188D71FA1EB8846800172460 /* DMTableTools.m in Sources */,
+				188D721C1EB9946D00172460 /* NSString+Fish.m in Sources */,
 				188D71EA1EB883D600172460 /* AppDelegate.m in Sources */,
 				188D71EF1EB883D600172460 /* SimpleBaseModel.m in Sources */,
 				188D71ED1EB883D600172460 /* SimpleBaseCell.m in Sources */,
+				188D72171EB993F900172460 /* SimpleViewController+Dummy.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

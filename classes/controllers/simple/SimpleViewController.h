@@ -11,3 +11,5 @@
 @interface SimpleViewController : UIViewController
 
 @end
+
+#import "SimpleViewController+Dummy.h"

@@ -25,6 +25,9 @@ typedef NS_ENUM(NSInteger, DMTableToolsAnimation) {
 - (NSString *)identifier;
 - (NSString *)cellIdentifier;
 
+@optional
+- (NSString *)sectionIdentifier;
+
 @end
 
 
@@ -38,6 +41,9 @@ typedef NS_ENUM(NSInteger, DMTableToolsAnimation) {
 #pragma mark - Table view
 @property (weak, nonatomic) UITableView *tableView;
 @property (copy, nonatomic) BOOL(^modificationComparatorBlock)(id item1, id item2);
+
+#pragma mark - Section info
+@property (strong, nonatomic) NSString *sectionNameKeyPath;
 
 #pragma mark - Data items
 

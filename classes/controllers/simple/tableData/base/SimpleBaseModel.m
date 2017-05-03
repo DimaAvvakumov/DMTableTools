@@ -18,4 +18,12 @@
     return [NSString stringWithFormat:@"item-%@", self.itemID];
 }
 
+- (BOOL)isModifyCompareToModel:(SimpleBaseModel *)oldModel {
+    if (![oldModel isKindOfClass:[SimpleBaseModel class]]) return NO;
+    
+    if ([self.title isEqualToString:oldModel.title]) return NO;
+    
+    return YES;
+}
+
 @end

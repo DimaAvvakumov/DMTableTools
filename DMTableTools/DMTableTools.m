@@ -35,6 +35,7 @@
         self.candidateAnimation = DMTableToolsNoAnimation;
         
         self.modificationComparatorBlock = nil;
+        self.sectionNameKeyPath = nil;
     }
     return self;
 }
@@ -95,11 +96,13 @@
 }
 
 - (void)performBatchUpdateWithItems:(NSArray <id<DMTableToolsModel>> *)dataItems completition:(void(^)(BOOL isSuccess))finishBlock {
+    
+    
     /* array of tl index path */
     NSArray <TLIndexPathItem *> *items = [self arrayOfIndexPathItemsFromArray:dataItems];
     
     /* new data model */
-    TLIndexPathDataModel *newModel = [[TLIndexPathDataModel alloc] initWithItems:items];
+    TLIndexPathDataModel *newModel = [[TLIndexPathDataModel alloc] initWithItems:items sectionNameKeyPath:self.sectionNameKeyPath identifierKeyPath:nil];
     TLIndexPathDataModel *oldModel = self.dataModel;
     
     if (oldModel == nil) {

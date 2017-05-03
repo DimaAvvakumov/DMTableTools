@@ -62,10 +62,10 @@
                                         <rect key="frame" x="0.0" y="28" width="320" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="uhy-yC-4q0" id="gOF-yc-Ufs">
-                                            <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="320" height="43.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="PBm-Vf-whA" userLabel="Label - Craft">
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="PBm-Vf-whA" userLabel="Label - Craft">
                                                     <rect key="frame" x="16" y="11" width="42" height="21"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <nil key="textColor"/>
@@ -75,6 +75,8 @@
                                             <constraints>
                                                 <constraint firstItem="PBm-Vf-whA" firstAttribute="leading" secondItem="gOF-yc-Ufs" secondAttribute="leading" constant="16" id="7tQ-3F-llk"/>
                                                 <constraint firstItem="PBm-Vf-whA" firstAttribute="top" secondItem="gOF-yc-Ufs" secondAttribute="top" constant="11" id="TnV-5b-JXu"/>
+                                                <constraint firstAttribute="bottom" secondItem="PBm-Vf-whA" secondAttribute="bottom" constant="12" id="dfb-rL-igv"/>
+                                                <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="PBm-Vf-whA" secondAttribute="trailing" constant="16" id="rly-pu-XIZ"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                         <connections>
