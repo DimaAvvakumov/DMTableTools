@@ -37,6 +37,8 @@
         
         self.modificationComparatorBlock = nil;
         self.sectionNameKeyPath = nil;
+        
+        self.tableViewRowAnimation = UITableViewRowAnimationAutomatic;
     }
     return self;
 }
@@ -145,7 +147,7 @@
     self.dataModel = newModel;
     
     dispatch_async(dispatch_get_main_queue(), ^{
-        [updates performBatchUpdatesOnTableView:self.tableView withRowAnimation:UITableViewRowAnimationAutomatic handleModificationCompletion:^(NSArray *visibleModifiedIndexPaths) {
+        [updates performBatchUpdatesOnTableView:self.tableView withRowAnimation:self.tableViewRowAnimation handleModificationCompletion:^(NSArray *visibleModifiedIndexPaths) {
             
             if (visibleModifiedIndexPaths) {
                 if (self.onModifyVisibleCellsBlock) {

@@ -43,6 +43,8 @@ typedef NS_ENUM(NSInteger, DMTableToolsAnimation) {
 @property (copy, nonatomic) BOOL(^modificationComparatorBlock)(id item1, id item2);
 @property (copy, nonatomic) void(^onModifyVisibleCellsBlock)(NSArray <NSIndexPath *> *visibleModifiedIndexPaths);
 
+@property (assign, nonatomic) UITableViewRowAnimation tableViewRowAnimation;
+
 #pragma mark - Section info
 @property (strong, nonatomic) NSString *sectionNameKeyPath;
 
