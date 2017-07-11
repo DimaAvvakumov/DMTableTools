@@ -1,7 +1,7 @@
 Pod::Spec.new do |s|
 
   s.name         = "DMTableTools"
-  s.version      = "1.1"
+  s.version      = "2.0"
   s.summary      = "UITableView helper"
   s.homepage     = "https://github.com/DimaAvvakumov/DMTableTools"
   s.license      = { :type => "MIT", :file => "LICENSE" }
