@@ -27,8 +27,12 @@
     return @"SimpleCell";
 }
 
-- (NSString *)identifier {
+- (NSString *)tableTools_itemIdentifier {
     return [NSString stringWithFormat:@"item-%@", self.itemID];
+}
+
+- (NSString *)tableTools_modifyHash {
+    return self.title;
 }
 
 - (BOOL)isModifyCompareToModel:(SimpleBaseModel *)oldModel {

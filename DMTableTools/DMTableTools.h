@@ -22,11 +22,11 @@ typedef NS_ENUM(NSInteger, DMTableToolsAnimation) {
 @protocol DMTableToolsModel <NSObject>
 
 @required
-- (NSString *)identifier;
+- (NSString *)tableTools_itemIdentifier;
 - (NSString *)cellIdentifier;
 
 @optional
-- (NSString *)sectionIdentifier;
+- (NSString *)tableTools_modifyHash;
 
 @end
 

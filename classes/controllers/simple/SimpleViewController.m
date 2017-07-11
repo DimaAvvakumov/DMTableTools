@@ -38,10 +38,10 @@
     
     DMTableTools *tableTools = [DMTableTools toolsWithTableView:self.tableView];
     tableTools.sectionNameKeyPath = nil; // @"section";
-    tableTools.modificationComparatorBlock = ^BOOL(id<SimpleModelProtocol> item1, id<SimpleModelProtocol> item2) {
-        
-        return [item1 isModifyCompareToModel:item2];
-    };
+//    tableTools.modificationComparatorBlock = ^BOOL(id<SimpleModelProtocol> item1, id<SimpleModelProtocol> item2) {
+//        
+//        return [item1 isModifyCompareToModel:item2];
+//    };
     tableTools.onModifyVisibleCellsBlock = ^(NSArray<NSIndexPath *> *visibleModifiedIndexPaths) {
         typeof (weakSelf) strongSelf = weakSelf;
         if (strongSelf == nil) return ;
@@ -84,15 +84,16 @@
     if (index == NSNotFound) return;
     
     SimpleBaseModel *model = (SimpleBaseModel *) [self.dataItems objectAtIndex:index];
-    SimpleBaseModel *newModel = [model copy];
+    model.title = [NSString generateRandomFishWithLength:64.0];
     
-    newModel.title = [NSString generateRandomFishWithLength:64.0];
-    
-    /* modify data items */
-    NSMutableArray *dataItems = [self.dataItems mutableCopy];
-    [dataItems replaceObjectAtIndex:index withObject:newModel];
-
-    self.dataItems = dataItems;
+//    SimpleBaseModel *newModel = [model copy];
+//    newModel.title = [NSString generateRandomFishWithLength:64.0];
+//    
+//    /* modify data items */
+//    NSMutableArray *dataItems = [self.dataItems mutableCopy];
+//    [dataItems replaceObjectAtIndex:index withObject:newModel];
+//
+//    self.dataItems = dataItems;
     
     [self.tableTools setDataItems:self.dataItems withAnimation:DMTableToolsDefaultAnimation];
 }

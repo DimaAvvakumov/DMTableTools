@@ -17,6 +17,9 @@
 /* core data items */
 @property (strong, nonatomic) TLIndexPathDataModel *dataModel;
 
+/* data items hash */
+@property (strong, nonatomic) NSMutableDictionary <NSString *, NSString *> *hashByModelsIDs;
+
 /* candidate */
 @property (assign, nonatomic) BOOL updateInProcess;
 @property (strong, nonatomic) NSArray <id<DMTableToolsModel>> *candidateDataItems;
@@ -39,6 +42,8 @@
         self.sectionNameKeyPath = nil;
         
         self.tableViewRowAnimation = UITableViewRowAnimationAutomatic;
+        
+        self.hashByModelsIDs = nil;
     }
     return self;
 }
@@ -98,6 +103,7 @@
 }
 
 - (void)afterBatchUpdate {
+    /* check for candidate */
     if (self.candidateDataItems == nil) return;
     
     NSArray <id<DMTableToolsModel>> *dataItems = self.candidateDataItems;
@@ -106,6 +112,36 @@
     self.candidateDataItems = nil;
     
     [self setDataItems:dataItems withAnimation:animation];
+}
+
+- (void)setDataModel:(TLIndexPathDataModel *)dataModel {
+    _dataModel = dataModel;
+    
+    if (dataModel == nil) return;
+    
+    NSArray <TLIndexPathItem *> *items = dataModel.items;
+    if (items == nil) return;
+    
+    NSUInteger count = [items count];
+    NSMutableDictionary *hashByModels = [NSMutableDictionary dictionaryWithCapacity:count];
+    
+    for (TLIndexPathItem *item in items) {
+        id<DMTableToolsModel> model = item.data;
+        if (model == nil) continue;
+        
+        if (![model conformsToProtocol:@protocol(DMTableToolsModel)]) continue;
+        if (![model respondsToSelector:@selector(tableTools_modifyHash)]) continue;
+        
+        NSString *itemID = [model tableTools_itemIdentifier];
+        NSString *hash = [model tableTools_modifyHash];
+        if (hash == nil) {
+            hash = @"";
+        }
+        
+        [hashByModels setObject:hash forKey:itemID];
+    }
+    
+    self.hashByModelsIDs = hashByModels;
 }
 
 - (void)performBatchUpdateWithItems:(NSArray <id<DMTableToolsModel>> *)dataItems completition:(void(^)(BOOL isSuccess))finishBlock {
@@ -141,7 +177,37 @@
         typeof (weakSelf) strongSelf = weakSelf;
         if (strongSelf == nil) return NO;
         
-        return strongSelf.modificationComparatorBlock(item1.data, item2.data);
+        /* if modification block isset */
+        if (strongSelf.modificationComparatorBlock) {
+            return strongSelf.modificationComparatorBlock(item1.data, item2.data);
+        }
+        
+        /* compare with hash */
+        
+        id<DMTableToolsModel> model1 = item1.data;
+        id<DMTableToolsModel> model2 = item2.data;
+        
+        /* if modify selectors not provided then set to is not modify */
+        if (![model1 respondsToSelector:@selector(tableTools_modifyHash)]) return NO;
+        if (![model2 respondsToSelector:@selector(tableTools_modifyHash)]) return NO;
+        
+        NSString *model1NewHash = [model1 tableTools_modifyHash];
+        NSString *model2NewHash = nil;
+        
+        if ([model1 isEqual:model2]) {
+            NSString *itemID = [model1 tableTools_itemIdentifier];
+            NSMutableDictionary <NSString *, NSString *> *hashByModelsIDs = self.hashByModelsIDs;
+            if (hashByModelsIDs == nil) return NO;
+            
+            model2NewHash = [hashByModelsIDs objectForKey:itemID];
+        } else {
+            model2NewHash = [model2 tableTools_modifyHash];
+        }
+        
+        /* hashes are equal -> not changes */
+        if ([model1NewHash isEqualToString:model2NewHash]) return NO;
+        
+        return YES;
     }];
     
     self.dataModel = newModel;
@@ -184,7 +250,7 @@
     NSUInteger count = [models count];
     NSMutableArray *items = [NSMutableArray arrayWithCapacity:count];
     for (id<DMTableToolsModel> model in models) {
-        NSString *identifier = [model identifier];
+        NSString *identifier = [model tableTools_itemIdentifier];
         NSString *sectionName = nil;
         NSString *cellIdentifier = @"Cell";
         
