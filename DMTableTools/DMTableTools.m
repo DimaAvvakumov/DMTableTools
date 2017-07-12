@@ -150,8 +150,11 @@
     /* array of tl index path */
     NSArray <TLIndexPathItem *> *items = [self arrayOfIndexPathItemsFromArray:dataItems];
     
+    /* section name */
+    NSString *sectionKeyPath = (self.sectionNameKeyPath) ? @"sectionName" : nil;
+    
     /* new data model */
-    TLIndexPathDataModel *newModel = [[TLIndexPathDataModel alloc] initWithItems:items sectionNameKeyPath:self.sectionNameKeyPath identifierKeyPath:nil];
+    TLIndexPathDataModel *newModel = [[TLIndexPathDataModel alloc] initWithItems:items sectionNameKeyPath:sectionKeyPath identifierKeyPath:nil];
     TLIndexPathDataModel *oldModel = self.dataModel;
     
     if (oldModel == nil) {
@@ -253,6 +256,21 @@
         NSString *identifier = [model tableTools_itemIdentifier];
         NSString *sectionName = nil;
         NSString *cellIdentifier = @"Cell";
+        
+        /* try to get section name */
+        NSString *sectionNameKeyPath = self.sectionNameKeyPath;
+        if (sectionNameKeyPath) {
+            @try {
+                NSObject *modelCandidate = (NSObject *) model;
+                NSString *sectionNameCandidate = [modelCandidate valueForKeyPath:sectionNameKeyPath];
+                if (sectionNameCandidate && [sectionNameCandidate isKindOfClass:[NSString class]]) {
+                    sectionName = sectionNameCandidate;
+                }
+            } @catch (NSException *exception) {
+                NSLog(@"Declare `sectionNameKeyPath` at instance of DMTableTools without providing an implementaion of method in model");
+                NSLog(@"Posible solution: append `%@` method at model", sectionNameKeyPath);
+            }
+        }
         
         TLIndexPathItem *item = [[TLIndexPathItem alloc] initWithIdentifier:identifier sectionName:sectionName cellIdentifier:cellIdentifier data:model];
         
