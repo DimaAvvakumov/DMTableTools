@@ -60,20 +60,21 @@
 
 - (void)setDataItems:(NSArray <id<DMTableToolsModel>> *)dataItems withAnimation:(DMTableToolsAnimation)animation {
     // NSArray <id<DMTableToolsModel>> *copyedDataItems = [[NSArray alloc] initWithArray:dataItems copyItems:YES];
+    NSArray <id<DMTableToolsModel>> *copyedDataItems = [dataItems copy];
     
     /* check for main thread */
     if (![NSThread isMainThread]) return;
     
     /* check for updating process */
     if (self.updateInProcess) {
-        self.candidateDataItems = dataItems;
+        self.candidateDataItems = copyedDataItems;
         self.candidateAnimation = animation;
         
         return;
     }
     
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-        [self performBatchUpdateWithItems:dataItems completition:^(BOOL isSuccess) {
+        [self performBatchUpdateWithItems:copyedDataItems completition:^(BOOL isSuccess) {
             
             /* finish */
             self.updateInProcess = NO;
