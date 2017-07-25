@@ -96,6 +96,10 @@
     return nil;
 }
 
+- (NSIndexPath *)indexPathByIdentifier:(NSString *)identifier {
+    return [self.dataModel indexPathForIdentifier:identifier];
+}
+
 - (NSInteger)plainIndexByIndexPath:(NSIndexPath *)indexPath {
     TLIndexPathItem *item = [self.dataModel itemAtIndexPath:indexPath];
     NSUInteger index = [[self.dataModel items] indexOfObject:item];
@@ -214,9 +218,17 @@
         return YES;
     }];
     
+    /* unilize data */
+    NSIndexPath *indexPath = [[self.tableView indexPathsForVisibleRows] firstObject];
+    id<DMTableToolsModel> model = [self modelAtIndexPath:indexPath];
+    NSString *itemID = [model tableTools_itemIdentifier];
+    CGRect rect = [self.tableView rectForRowAtIndexPath:indexPath];
+    CGFloat x = rect.origin.y - self.tableView.contentOffset.y;
+    
     self.dataModel = newModel;
     
     dispatch_async(dispatch_get_main_queue(), ^{
+        
         [updates performBatchUpdatesOnTableView:self.tableView withRowAnimation:self.tableViewRowAnimation handleModificationCompletion:^(NSArray *visibleModifiedIndexPaths) {
             
             if (visibleModifiedIndexPaths) {
@@ -231,6 +243,16 @@
                 finishBlock(YES);
             }
         }];
+        
+        /* restorize */
+        NSIndexPath *indexPath = [self indexPathByIdentifier:itemID];
+        if (indexPath) {
+            CGRect rect = [self.tableView rectForRowAtIndexPath:indexPath];
+            
+            CGFloat offset = rect.origin.y - x;
+            [self.tableView setContentOffset:CGPointMake(0.0, offset) animated:YES];
+        }
+        
     });
 }
 

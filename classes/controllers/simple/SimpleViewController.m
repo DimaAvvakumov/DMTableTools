@@ -108,7 +108,7 @@
     model.title = [NSString generateRandomFishWithLength:64.0];
     
     NSMutableArray *dataItems = [self.dataItems mutableCopy];
-    [dataItems insertObject:model atIndex:0];
+    [dataItems insertObject:model atIndex:4];
     
     self.dataItems = dataItems;
     
