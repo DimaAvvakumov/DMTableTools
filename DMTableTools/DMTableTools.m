@@ -74,6 +74,13 @@
     }
     
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        /* check for no - animation */
+        if (animation == DMTableToolsNoAnimation) {
+            
+            /* remove old model for reloadData imerdentaly */
+            self.dataModel = nil;
+        }
+        
         [self performBatchUpdateWithItems:copyedDataItems completition:^(BOOL isSuccess) {
             
             /* finish */
