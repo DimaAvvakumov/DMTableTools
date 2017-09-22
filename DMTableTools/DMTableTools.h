@@ -50,10 +50,15 @@ typedef NS_ENUM(NSInteger, DMTableToolsAnimation) {
 
 #pragma mark - Data items
 
-/* Method must be call on main thread only 
+/**
+    @brief Method must be call on main thread only
  */
-
 - (void)setDataItems:(NSArray <id<DMTableToolsModel>> *)dataItems withAnimation:(DMTableToolsAnimation)animation;
+
+/**
+    @brief Method determine empty or not are tools
+ */
+- (BOOL)isEmpty;
 
 - (id<DMTableToolsModel>)modelAtIndexPath:(NSIndexPath *)indexPath;
 - (NSInteger)plainIndexByIndexPath:(NSIndexPath *)indexPath;

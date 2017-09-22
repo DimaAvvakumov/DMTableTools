@@ -16,6 +16,7 @@
 
 /* core data items */
 @property (strong, nonatomic) TLIndexPathDataModel *dataModel;
+@property (assign, nonatomic) BOOL isEmptyDataModel;
 
 /* data items hash */
 @property (strong, nonatomic) NSMutableDictionary <NSString *, NSString *> *hashByModelsIDs;
@@ -43,6 +44,7 @@
         
         self.tableViewRowAnimation = UITableViewRowAnimationAutomatic;
         
+        self.isEmptyDataModel = YES;
         self.hashByModelsIDs = nil;
     }
     return self;
@@ -73,6 +75,8 @@
         return;
     }
     
+    self.isEmptyDataModel = (dataItems && [dataItems count] > 0) ? NO : YES;
+    
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         /* check for no - animation */
         if (animation == DMTableToolsNoAnimation) {
@@ -91,6 +95,10 @@
     });
     
     self.updateInProcess = YES;
+}
+
+- (BOOL)isEmpty {
+    return self.isEmptyDataModel;
 }
 
 - (id<DMTableToolsModel>)modelAtIndexPath:(NSIndexPath *)indexPath {
