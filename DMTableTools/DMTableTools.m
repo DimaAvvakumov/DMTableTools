@@ -12,6 +12,8 @@
 #import <TLIndexPathTools/TLIndexPathTools.h>
 #import "TLIndexPathUpdates+DMBatch.h"
 
+#import "DMTableTools+Logger.h"
+
 @interface DMTableTools()
 
 /* core data items */
@@ -323,6 +325,5 @@
     
     return items;
 }
-
 
 @end

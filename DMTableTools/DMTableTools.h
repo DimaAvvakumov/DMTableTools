@@ -78,5 +78,3 @@ typedef NS_ENUM(NSInteger, DMTableToolsLoggerLevel) {
 - (NSInteger)numberOfRowsInSection:(NSInteger)section;
 
 @end
-
-#import "DMTableTools+Logger.h"

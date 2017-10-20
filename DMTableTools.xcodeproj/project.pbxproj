@@ -20,7 +20,7 @@
 		188D72171EB993F900172460 /* SimpleViewController+Dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 188D72161EB993F900172460 /* SimpleViewController+Dummy.m */; };
 		188D721C1EB9946D00172460 /* NSString+Fish.m in Sources */ = {isa = PBXBuildFile; fileRef = 188D721B1EB9946D00172460 /* NSString+Fish.m */; };
 		188D721F1EB9AF0200172460 /* TLIndexPathUpdates+DMBatch.m in Sources */ = {isa = PBXBuildFile; fileRef = 188D721E1EB9AF0200172460 /* TLIndexPathUpdates+DMBatch.m */; };
-		18D248681F99B38E0053ECEC /* DMTableTools+Logger.m in Sources */ = {isa = PBXBuildFile; fileRef = 18D248671F99B38E0053ECEC /* DMTableTools+Logger.m */; };
+		18FD6A1D1F99E7A3008AF98F /* DMTableTools+Logger.m in Sources */ = {isa = PBXBuildFile; fileRef = 18FD6A1C1F99E7A3008AF98F /* DMTableTools+Logger.m */; };
 		C68B25D84850F9379F6E76DD /* libPods-DMTableTools.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 389920965897F35823EA3401 /* libPods-DMTableTools.a */; };
 /* End PBXBuildFile section */
 
@@ -50,9 +50,9 @@
 		188D721B1EB9946D00172460 /* NSString+Fish.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+Fish.m"; sourceTree = "<group>"; };
 		188D721D1EB9AF0200172460 /* TLIndexPathUpdates+DMBatch.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "TLIndexPathUpdates+DMBatch.h"; sourceTree = "<group>"; };
 		188D721E1EB9AF0200172460 /* TLIndexPathUpdates+DMBatch.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "TLIndexPathUpdates+DMBatch.m"; sourceTree = "<group>"; };
-		18D248661F99B38E0053ECEC /* DMTableTools+Logger.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "DMTableTools+Logger.h"; sourceTree = "<group>"; };
-		18D248671F99B38E0053ECEC /* DMTableTools+Logger.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "DMTableTools+Logger.m"; sourceTree = "<group>"; };
 		18F671721EB8DD1100C6A9A2 /* SimpleTableViewProtocols.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SimpleTableViewProtocols.h; sourceTree = "<group>"; };
+		18FD6A1B1F99E7A3008AF98F /* DMTableTools+Logger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "DMTableTools+Logger.h"; sourceTree = "<group>"; };
+		18FD6A1C1F99E7A3008AF98F /* DMTableTools+Logger.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "DMTableTools+Logger.m"; sourceTree = "<group>"; };
 		389920965897F35823EA3401 /* libPods-DMTableTools.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-DMTableTools.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		C4DB049848DC98CAB944D74C /* Pods-DMTableTools.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DMTableTools.release.xcconfig"; path = "Pods/Target Support Files/Pods-DMTableTools/Pods-DMTableTools.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -103,8 +103,8 @@
 			children = (
 				188D71F81EB8846800172460 /* DMTableTools.h */,
 				188D71F91EB8846800172460 /* DMTableTools.m */,
-				18D248661F99B38E0053ECEC /* DMTableTools+Logger.h */,
-				18D248671F99B38E0053ECEC /* DMTableTools+Logger.m */,
+				18FD6A1B1F99E7A3008AF98F /* DMTableTools+Logger.h */,
+				18FD6A1C1F99E7A3008AF98F /* DMTableTools+Logger.m */,
 				188D721D1EB9AF0200172460 /* TLIndexPathUpdates+DMBatch.h */,
 				188D721E1EB9AF0200172460 /* TLIndexPathUpdates+DMBatch.m */,
 			);
@@ -353,7 +353,7 @@
 				188D721F1EB9AF0200172460 /* TLIndexPathUpdates+DMBatch.m in Sources */,
 				188D71EF1EB883D600172460 /* SimpleBaseModel.m in Sources */,
 				188D71ED1EB883D600172460 /* SimpleBaseCell.m in Sources */,
-				18D248681F99B38E0053ECEC /* DMTableTools+Logger.m in Sources */,
+				18FD6A1D1F99E7A3008AF98F /* DMTableTools+Logger.m in Sources */,
 				188D72171EB993F900172460 /* SimpleViewController+Dummy.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
