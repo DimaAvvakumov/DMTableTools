@@ -44,6 +44,11 @@
         
         self.tableViewRowAnimation = UITableViewRowAnimationAutomatic;
         
+        self.loggerLevel = DMTableToolsLoggerLevel_None;
+#ifdef DEBUG
+        self.loggerLevel = DMTableToolsLoggerLevel_Warnings;
+#endif
+        
         self.isEmptyDataModel = YES;
         self.hashByModelsIDs = nil;
     }
@@ -75,7 +80,13 @@
         return;
     }
     
+    /* precess will start at this point */
+    self.processToken = [NSProcessInfo processInfo].globallyUniqueString;
+    
     self.isEmptyDataModel = (dataItems && [dataItems count] > 0) ? NO : YES;
+    
+    /* log start process */
+    [self logger_prepareForStartBinding];
     
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         /* check for no - animation */
@@ -85,10 +96,13 @@
             self.dataModel = nil;
         }
         
+        /* log before batch */
+        [self logger_beforeBatchUpdate];
+        
         [self performBatchUpdateWithItems:copyedDataItems completition:^(BOOL isSuccess) {
             
-            /* finish */
-            self.updateInProcess = NO;
+            /* log before batch */
+            [self logger_finishedBatchUpdate];
             
             [self afterBatchUpdate];
         }];
@@ -120,12 +134,26 @@
 
 - (void)afterBatchUpdate {
     /* check for candidate */
-    if (self.candidateDataItems == nil) return;
+    if (self.candidateDataItems == nil) {
+        /* log before batch */
+        [self logger_noContinueData];
+        
+        /* finish */
+        self.updateInProcess = NO;
+        
+        return;
+    }
     
     NSArray <id<DMTableToolsModel>> *dataItems = self.candidateDataItems;
     DMTableToolsAnimation animation = self.candidateAnimation;
     
     self.candidateDataItems = nil;
+    
+    /* log before batch */
+    [self logger_prepareForNewCircle];
+    
+    /* finish */
+    self.updateInProcess = NO;
     
     [self setDataItems:dataItems withAnimation:animation];
 }

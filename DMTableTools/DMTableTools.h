@@ -16,6 +16,12 @@ typedef NS_ENUM(NSInteger, DMTableToolsAnimation) {
     DMTableToolsDefaultAnimation
 };
 
+typedef NS_ENUM(NSInteger, DMTableToolsLoggerLevel) {
+    DMTableToolsLoggerLevel_None = 0,
+    DMTableToolsLoggerLevel_Warnings = 1,
+    DMTableToolsLoggerLevel_All = 2
+};
+
 
 #pragma mark - Model declaration
 
@@ -45,6 +51,10 @@ typedef NS_ENUM(NSInteger, DMTableToolsAnimation) {
 
 @property (assign, nonatomic) UITableViewRowAnimation tableViewRowAnimation;
 
+/* logger */
+@property (strong, nonatomic) NSString *processToken;
+@property (assign, nonatomic) DMTableToolsLoggerLevel loggerLevel;
+
 #pragma mark - Section info
 @property (strong, nonatomic) NSString *sectionNameKeyPath;
 
@@ -68,3 +78,5 @@ typedef NS_ENUM(NSInteger, DMTableToolsAnimation) {
 - (NSInteger)numberOfRowsInSection:(NSInteger)section;
 
 @end
+
+#import "DMTableTools+Logger.h"
