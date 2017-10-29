@@ -13,7 +13,8 @@
 
 typedef NS_ENUM(NSInteger, DMTableToolsAnimation) {
     DMTableToolsNoAnimation,
-    DMTableToolsDefaultAnimation
+    DMTableToolsDefaultAnimation,
+    DMTableToolsFixedAnimation
 };
 
 typedef NS_ENUM(NSInteger, DMTableToolsLoggerLevel) {

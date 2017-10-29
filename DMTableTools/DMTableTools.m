@@ -28,6 +28,9 @@
 @property (strong, nonatomic) NSArray <id<DMTableToolsModel>> *candidateDataItems;
 @property (assign, nonatomic) DMTableToolsAnimation candidateAnimation;
 
+/* content utilizer */
+@property (strong, nonatomic) NSDictionary *visibleCellsInfo;
+
 @end
 
 @implementation DMTableTools
@@ -90,13 +93,22 @@
     /* log start process */
     [self logger_prepareForStartBinding];
     
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-        /* check for no - animation */
-        if (animation == DMTableToolsNoAnimation) {
-            
-            /* remove old model for reloadData imerdentaly */
-            self.dataModel = nil;
+    /* check for no - animation */
+    BOOL noAnimation = NO;
+    if (animation == DMTableToolsNoAnimation) {
+        noAnimation = YES;
+    }
+    if (animation == DMTableToolsFixedAnimation) {
+        noAnimation = YES;
+    }
+    if (noAnimation) {
+        /* utilize content offset */
+        if (animation == DMTableToolsFixedAnimation) {
+            [self utilizeContentOffset];
         }
+        
+        /* remove old model for reloadData imerdentaly */
+        self.dataModel = nil;
         
         /* log before batch */
         [self logger_beforeBatchUpdate];
@@ -106,11 +118,31 @@
             /* log before batch */
             [self logger_finishedBatchUpdate];
             
+            /* restore content offset */
+            if (animation == DMTableToolsFixedAnimation) {
+                [self restoreContentOffset];
+            }
+            
             [self afterBatchUpdate];
         }];
-    });
-    
-    self.updateInProcess = YES;
+
+    } else {
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+            
+            /* log before batch */
+            [self logger_beforeBatchUpdate];
+            
+            [self performBatchUpdateWithItems:copyedDataItems completition:^(BOOL isSuccess) {
+                
+                /* log before batch */
+                [self logger_finishedBatchUpdate];
+                
+                [self afterBatchUpdate];
+            }];
+        });
+        
+        self.updateInProcess = YES;
+    }
 }
 
 - (BOOL)isEmpty {
@@ -207,13 +239,21 @@
         
         self.dataModel = newModel;
         
-        dispatch_async(dispatch_get_main_queue(), ^{
+        void(^reloadBlock)(void) = ^(void){
             [self.tableView reloadData];
             
             if (finishBlock) {
                 finishBlock(YES);
             }
-        });
+        };
+        
+        if ([NSThread isMainThread]) {
+            reloadBlock();
+        } else {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                reloadBlock();
+            });
+        }
         
         return;
     }
@@ -261,7 +301,7 @@
     
     self.dataModel = newModel;
     
-    dispatch_async(dispatch_get_main_queue(), ^{
+    void(^reloadBlock)(void) = ^(void){
         [updates performBatchUpdatesOnTableView:self.tableView withRowAnimation:self.tableViewRowAnimation handleModificationCompletion:^(NSArray *visibleModifiedIndexPaths) {
             
             if (visibleModifiedIndexPaths) {
@@ -276,7 +316,15 @@
                 finishBlock(YES);
             }
         }];
-    });
+    };
+    
+    if ([NSThread isMainThread]) {
+        reloadBlock();
+    } else {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            reloadBlock();
+        });
+    }
 }
 
 #pragma mark - UITableViewDataSource
@@ -325,5 +373,63 @@
     
     return items;
 }
+
+#pragma mark - Content offset manipulation
+
+- (void)utilizeContentOffset {
+    NSArray <NSIndexPath *>*visiblePaths = self.tableView.indexPathsForVisibleRows;
+    if (!visiblePaths) return;
+    if ([visiblePaths count] == 0) return;
+    
+    NSMutableArray *infoArray = [NSMutableArray arrayWithCapacity:[visiblePaths count]];
+    CGFloat offset = self.tableView.contentOffset.y;
+    
+    for (NSIndexPath *indexPath in visiblePaths) {
+        UITableViewCell *cell = [self.tableView cellForRowAtIndexPath:indexPath];
+        id<DMTableToolsModel> model = [self modelAtIndexPath:indexPath];
+        NSString *identifier = [model tableTools_itemIdentifier];
+        if (identifier == nil) continue;
+        
+        CGFloat cellOffset = cell.frame.origin.y;
+        CGFloat offsetScreen = cellOffset - offset;
+        
+        NSDictionary *info = @{ @"entity": identifier, @"offset": @(offsetScreen) };
+        
+        [infoArray addObject:info];
+    }
+    
+    if ([infoArray count] > 0) {
+        self.visibleCellsInfo = infoArray;
+    } else {
+        self.visibleCellsInfo = nil;
+    }
+}
+
+- (void)restoreContentOffset {
+    if (self.visibleCellsInfo) {
+        for (NSDictionary *info in self.visibleCellsInfo) {
+            NSString *identifier = [info objectForKey:@"entity"];
+            NSNumber *screenOffset = [info objectForKey:@"offset"];
+            
+            NSIndexPath *indexPath = [self.dataModel indexPathForIdentifier:identifier];
+            if (indexPath == nil) continue;
+            
+            CGRect rect = [self.tableView rectForRowAtIndexPath:indexPath];
+            CGFloat offset = rect.origin.y + screenOffset.doubleValue;
+            
+            /* Check for out bounding offset */
+            CGFloat tableHeight = self.tableView.frame.size.height;
+            CGFloat contentHeight = self.tableView.contentSize.height;
+            if (contentHeight > 0.0 && offset + tableHeight > contentHeight) {
+                offset = contentHeight - tableHeight;
+            }
+            
+            CGPoint contentOffset = CGPointMake(0.0, offset);
+            [self.tableView setContentOffset:contentOffset];
+            break;
+        }
+    }
+}
+
 
 @end
