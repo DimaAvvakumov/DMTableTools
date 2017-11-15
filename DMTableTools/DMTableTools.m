@@ -121,6 +121,9 @@
             /* restore content offset */
             if (animation == DMTableToolsFixedAnimation) {
                 [self restoreContentOffset];
+                dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                    [self restoreContentOffset];
+                });
             }
             
             [self afterBatchUpdate];
@@ -410,25 +413,24 @@
         for (NSDictionary *info in self.visibleCellsInfo) {
             NSString *identifier = [info objectForKey:@"entity"];
             NSNumber *screenOffset = [info objectForKey:@"offset"];
+            UITableView *tableView = self.tableView;
             
             NSIndexPath *indexPath = [self.dataModel indexPathForIdentifier:identifier];
             if (indexPath == nil) continue;
             
             CGRect rect = [self.tableView rectForRowAtIndexPath:indexPath];
-            CGFloat offset = rect.origin.y + screenOffset.doubleValue;
+            CGFloat offset = rect.origin.y - screenOffset.doubleValue;
             
             /* Check for out bounding offset */
-            CGFloat tableHeight = self.tableView.frame.size.height;
-            CGFloat contentHeight = self.tableView.contentSize.height;
+            CGFloat tableHeight = tableView.frame.size.height;
+            CGFloat contentHeight = tableView.contentSize.height;
             if (contentHeight > 0.0 && offset + tableHeight > contentHeight) {
                 offset = contentHeight - tableHeight;
             }
             
             CGPoint contentOffset = CGPointMake(0.0, offset);
             
-            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-                [self.tableView setContentOffset:contentOffset];
-            });
+            [tableView setContentOffset:contentOffset];
             
             break;
         }
