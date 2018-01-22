@@ -71,6 +71,11 @@ typedef NS_ENUM(NSInteger, DMTableToolsLoggerLevel) {
  */
 - (BOOL)isEmpty;
 
+/**
+    @brief Section names
+ */
+- (NSArray <NSString *> *)sectionNames;
+
 - (id<DMTableToolsModel>)modelAtIndexPath:(NSIndexPath *)indexPath;
 - (NSInteger)plainIndexByIndexPath:(NSIndexPath *)indexPath;
 

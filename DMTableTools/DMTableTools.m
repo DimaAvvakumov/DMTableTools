@@ -152,6 +152,12 @@
     return self.isEmptyDataModel;
 }
 
+- (NSArray <NSString *> *)sectionNames {
+    if (self.dataModel == nil) return nil;
+    
+    return [self.dataModel sectionNames];
+}
+
 - (id<DMTableToolsModel>)modelAtIndexPath:(NSIndexPath *)indexPath {
     TLIndexPathItem *item = [self.dataModel itemAtIndexPath:indexPath];
     id<DMTableToolsModel> model = item.data;
